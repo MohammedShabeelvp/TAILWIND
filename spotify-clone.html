@@ -1,0 +1,1450 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Clone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @media (max-width: 768px) {
+      #search-extra {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-black h-screen overflow-hidden">
+  <!-- ONE grid: 3 rows — nav (auto), content (1fr), footer (auto) -->
+  <div class="h-full grid grid-rows-[auto_1fr_auto] text-white">
+    <!-- ROW 1: nav -->
+    <nav class="bg-black text-white flex items-center justify-between px-6 py-3">
+      <!-- LEFT group -->
+      <div class="flex items-center justify-center gap-2">
+        <div class="relative group inline-block">
+          <a href="#" class="flex items-center transition mr-6">
+            <img src="src/spotify-white-icon.svg" class="w-10 h-10" alt="" />
+          </a>
+          <div class="absolute top-full left-1/3 -translate-x-1/2 mt-2 
+              px-3 py-1.5 bg-neutral-800 text-white text-xs font-semibold rounded-md whitespace-nowrap
+              opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+              transition-all duration-200 z-50">
+            Spotify
+          </div>
+        </div>
+        <div class="relative group inline-block">
+          <a href="#" class="flex items-center group">
+            <button
+              class="w-12 h-12 bg-neutral-700/60 rounded-full hover:bg-neutral-700 hover:scale-105 flex items-center justify-center transition">
+              <img src="src/home-white-icon.svg" class="w-5 h-5 group-hover:scale-105" alt="" />
+            </button>
+          </a>
+          <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 
+              px-3 py-1.5 bg-neutral-800 text-white text-xs font-semibold rounded-md whitespace-nowrap
+              opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+              transition-all duration-200 z-50">
+            Home
+          </div>
+        </div>
+
+        <div
+          class=" h-12 bg-neutral-700/60 rounded-full hover:bg-neutral-700 transition hover:border border-neutral-400/60 flex items-center justify-center ">
+          <div class="relative group inline-block">
+            <button class="w-12 h-12 hover:scale-105  flex items-center justify-center">
+              <img src="src/search-magnifying-glass-white-icon.svg" class="w-5 h-5" alt="" />
+            </button>
+            <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 
+              px-3 py-1.5 bg-neutral-800 text-white text-xs font-semibold rounded-md whitespace-nowrap
+              opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+              transition-all duration-200 z-50">
+              Search
+            </div>
+          </div>
+          <div id="search-extra" class="items-center gap-3 pr-4 flex whitespace-nowrap">
+            <input type="text" placeholder="What do you want to play?"
+              class="bg-transparent text-neutral-200 placeholder-neutral-400 text-sm outline-none flex-1" />
+            <div class="flex items-center gap-1.5">
+              <kbd class="bg-neutral-700/60 text-neutral-300 text-xs font-semibold px-2 py-1 rounded-md">Ctrl</kbd>
+              <kbd class="bg-neutral-700/60 text-neutral-300 text-xs font-semibold px-2 py-1 rounded-md">Shift</kbd>
+              <kbd class="bg-neutral-700/60 text-neutral-300 text-xs font-semibold px-2 py-1 rounded-md">L</kbd>
+            </div>
+            <div class="w-px h-6 bg-neutral-600"></div>
+            <svg class="w-5 h-5 text-neutral-300 cursor-pointer hover:text-white transition" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <!-- RIGHT group -->
+      <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-6 text-sm font-semibold">
+          <a href="#" class="text-neutral-400 hover:text-white hover:scale-105 transition">Premium</a>
+          <a href="#" class="text-neutral-400 hover:text-white hover:scale-105 transition">Support</a>
+          <a href="#" class="text-neutral-400 hover:text-white hover:scale-105 transition">Download</a>
+          <span class="text-3xl cursor-default text-white">|</span>
+        </div>
+        <a href="#" class="text-neutral-400 text-sm font-semibold hover:text-white hover:scale-105 transition">Install
+          App</a>
+        <a href="#" class="text-sm font-semibold text-neutral-300 hover:text-white hover:scale-105 transition">Sign
+          up</a>
+        <button class="bg-white text-black text-sm font-bold px-6 py-3 rounded-full hover:scale-105 transition">
+          Log in
+        </button>
+      </div>
+    </nav>
+
+    <!-- ROW 2: Sidebar + Main content, eats all remaining space -->
+    <div class="grid grid-cols-[280px_1fr] md:grid-cols-[420px_1fr] gap-2 p-2  min-h-0">
+      <!-- ---------- SIDEBAR ---------- -->
+      <aside class="flex flex-col gap-4  min-h-0">
+        <div class="bg-neutral-900 rounded-lg p-4 flex-1 min-h-0">
+          <div class="flex items-center justify-between text-neutral-100 mb-4">
+            <span class="flex items-center gap-2 font-semibold py-3">Your Library</span>
+            <div class="relative group inline-block">
+              <button
+                class="w-10 h-10 text-2xl hover:text-3xl hover:bg-neutral-700/60 rounded-full bg-neutral-800/60 flex items-center justify-center">
+                +
+              </button>
+              <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 
+              px-3 py-1.5 bg-neutral-800 text-white text-xs font-semibold rounded-md whitespace-nowrap
+              opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+              transition-all duration-200 z-50">
+                Create a playlist, folder or jam
+              </div>
+            </div>
+          </div>
+
+          <div class="h-64 overflow-y-auto my-4">
+            <div class="space-y-3">
+              <div class="bg-neutral-800/60 rounded-lg p-4">
+                <p class="font-semibold mb-1">Create your first playlist</p>
+                <p class="text-neutral-200 text-sm mb-3 pr-4 py-2">
+                  It's easy, we'll help you
+                </p>
+                <button class="bg-white text-black text-xs font-bold px-4 py-2 rounded-full hover:scale-105">
+                  Create playlist
+                </button>
+              </div>
+
+              <div class="space-y-3">
+                <div class="bg-neutral-800/60 rounded-lg p-4">
+                  <p class="font-semibold mb-1">
+                    Let's find some podcasts to follow
+                  </p>
+                  <p class="text-neutral-200 text-sm mb-3 pr-4 py-2">
+                    We'll keep you updated on new episodes
+                  </p>
+                  <button class="bg-white text-black text-xs font-bold px-4 py-2 rounded-full hover:scale-105">
+                    Browse podcasts
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-3 my-4">
+            <a href="#" class="text-neutral-400 whitespace-nowrap text-xs hover:text-white py-4 pl-3">Legal</a>
+            <a href="#" class="text-neutral-400 whitespace-nowrap text-xs hover:text-white py-4 pl-3">Safety & Privacy
+              Center</a>
+            <a href="#" class="text-neutral-400 whitespace-nowrap text-xs hover:text-white py-4 pl-3">privcay Policy</a>
+            <a href="#" class="text-neutral-400 whitespace-nowrap text-xs hover:text-white py-4 pl-3">Cookies</a>
+            <a href="#" class="text-neutral-400 whitespace-nowrap text-xs hover:text-white py-4 pl-3">About Ads</a>
+            <a href="#" class="text-neutral-400 whitespace-nowrap text-xs hover:text-white py-4 pl-3">Accessibility</a>
+          </div>
+          <div class="space-y-3 my-4">
+            <a href="#" class="text-white text-xs no-underline hover:underline pl-3">Cookies</a>
+          </div>
+          <div class="space-y-3 my-8">
+            <button
+              class="flex item-center gap-2 bg-black text-neutral-200 border border-neutral-500 hover:border-neutral-200 text-sm font-bold px-4 py-2 rounded-full">
+              <img src="src/world-globe-white-icon.svg" class="w-4 h-4">
+              English
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ---------- MAIN CONTENT ---------- -->
+      <main class="bg-neutral-900 rounded-lg overflow-y-auto min-h-0">
+        <div class="px-6 py-8">
+          <!-- Trending section -->
+          <div class="grid grid-cols-2">
+            <h1 class="text-2xl font-bold mb-4">Trending songs</h1>
+            <a href="#"
+              class="pt-[6px] flex justify-end text-sm font-semibold text-neutral-400 no-underline hover:underline">Show
+              all</a>
+          </div>
+
+          <div class="relative flex gap-5 overflow-x-auto no-scrollbar pb-2 group/side">
+            <button onclick="
+                  document
+                    .getElementById('trending-row')
+                    .scrollBy({ left: -300, behavior: 'smooth' })
+                "
+              class="absolute left-[2px] top-1/2 text-2xl pr-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 hover:bg-black opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 rounded-full flex items-center justify-center text-white">
+              ‹
+            </button>
+
+            <div id="trending-row" class="flex gap-5 overflow-x-auto no-scrollbar pb-2 mb-4 scroll-smooth">
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/8b3a1a/ffffff?text=Radhimaa"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Radhimaa - From "Think Indie"</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Sai Abhyankar,</a>
+                  <a href="#" class="hover:underline">Nargis Teji,</a>
+                  <a href="#" class="hover:underline">Asma Teji,</a>
+                  <a href="#" class="hover:underline">Vivek</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+            </div>
+
+            <button onclick="
+                  document
+                    .getElementById('trending-row')
+                    .scrollBy({ left: 300, behavior: 'smooth' })
+                "
+              class="absolute right-0 top-1/2 text-2xl pl-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 group-hover/side:bg-black rounded-full flex items-center justify-center text-white">
+              ›
+            </button>
+          </div>
+          <!-- Artists Section -->
+          <div class="grid grid-cols-2">
+            <h1 class="text-2xl font-bold mb-4">Popular Artists</h1>
+            <a href="#"
+              class="pt-[6px] flex justify-end text-sm font-semibold text-neutral-400 no-underline hover:underline">Show
+              all</a>
+          </div>
+
+          <div class="relative flex gap-5 overflow-x-auto no-scrollbar pb-2 group/side">
+            <button onclick="
+                  document
+                    .getElementById('artists-row')
+                    .scrollBy({ left: -300, behavior: 'smooth' })
+                "
+              class="absolute left-[2px] top-1/2 text-2xl pr-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 hover:bg-black opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 rounded-full flex items-center justify-center text-white">
+              ‹
+            </button>
+
+            <div id="artists-row" class="flex gap-5 overflow-x-auto no-scrollbar pb-2 mb-4 scroll-smooth">
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/2f2f2f/ffffff?text=Pritam"
+                  class="aspect-square rounded-full shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Pritam</a>
+                <p class="text-[14px] text-neutral-400 mt-1">Artist</p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+            </div>
+
+            <button onclick="
+                  document
+                    .getElementById('artists-row')
+                    .scrollBy({ left: 300, behavior: 'smooth' })
+                "
+              class="absolute right-0 top-1/2 text-2xl pl-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 group-hover/side:bg-black rounded-full flex items-center justify-center text-white">
+              ›
+            </button>
+          </div>
+          <!-- Album section -->
+          <div class="grid grid-cols-2">
+            <h1 class="text-2xl font-bold mb-4">Popular albums</h1>
+            <a href="#"
+              class="pt-[6px] flex justify-end text-sm font-semibold text-neutral-400 no-underline hover:underline">Show
+              all</a>
+          </div>
+
+          <div class="relative flex gap-5 overflow-x-auto no-scrollbar pb-2 group/side">
+            <button onclick="
+                  document
+                    .getElementById('album-row')
+                    .scrollBy({ left: -300, behavior: 'smooth' })
+                "
+              class="absolute left-[2px] top-1/2 text-2xl pr-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 hover:bg-black opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 rounded-full flex items-center justify-center text-white">
+              ‹
+            </button>
+
+            <div id="album-row" class="flex gap-5 overflow-x-auto no-scrollbar pb-2 mb-4 scroll-smooth">
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/f5aca3/ffffff?text=Aashiqui 2"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <a href="#" class="hover:underline line-clamp-2">Aashiqui 2</a>
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  <a href="#" class="hover:underline">Mithoon,</a>
+                  <a href="#" class="hover:underline">Ankit Tiwari,</a>
+                  <a href="#" class="hover:underline">Jeet Gannguli</a>
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+            </div>
+
+            <button onclick="
+                  document
+                    .getElementById('album-row')
+                    .scrollBy({ left: 300, behavior: 'smooth' })
+                "
+              class="absolute right-0 top-1/2 text-2xl pl-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 group-hover/side:bg-black rounded-full flex items-center justify-center text-white">
+              ›
+            </button>
+          </div>
+          <!-- Radio section -->
+          <div class="grid grid-cols-2">
+            <h1 class="text-2xl font-bold mb-4">Popular radio</h1>
+            <a href="#"
+              class="pt-[6px] flex justify-end text-sm font-semibold text-neutral-400 no-underline hover:underline">Show
+              all</a>
+          </div>
+
+          <div class="relative flex gap-5 overflow-x-auto no-scrollbar pb-2 group/side">
+            <button onclick="
+                  document
+                    .getElementById('radio-row')
+                    .scrollBy({ left: -300, behavior: 'smooth' })
+                "
+              class="absolute left-[2px] top-1/2 text-2xl pr-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 hover:bg-black opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 rounded-full flex items-center justify-center text-white">
+              ‹
+            </button>
+
+            <div id="radio-row" class="flex gap-5 overflow-x-auto no-scrollbar pb-2 mb-4 scroll-smooth">
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/fa7155/ffffff?text=Arijith Singh"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+            </div>
+
+            <button onclick="
+                  document
+                    .getElementById('radio-row')
+                    .scrollBy({ left: 300, behavior: 'smooth' })
+                "
+              class="absolute right-0 top-1/2 text-2xl pl-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 group-hover/side:bg-black rounded-full flex items-center justify-center text-white">
+              ›
+            </button>
+          </div>
+          <!-- Featured section -->
+          <div class="grid grid-cols-2">
+            <h1 class="text-2xl font-bold mb-4">Featured charts</h1>
+            <a href="#"
+              class="pt-[6px] flex justify-end text-sm font-semibold text-neutral-400 no-underline hover:underline">Show
+              all</a>
+          </div>
+
+          <div class="relative flex gap-5 overflow-x-auto no-scrollbar pb-2 group/side">
+            <button onclick="
+                  document
+                    .getElementById('featured-row')
+                    .scrollBy({ left: -300, behavior: 'smooth' })
+                "
+              class="absolute left-[2px] top-1/2 text-2xl pr-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 hover:bg-black opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 rounded-full flex items-center justify-center text-white">
+              ‹
+            </button>
+
+            <div id="featured-row" class="flex gap-5 overflow-x-auto no-scrollbar pb-2 mb-4 scroll-smooth">
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+
+              <div class="relative flex-shrink-0 w-44 cursor-pointer hover:bg-neutral-800 py-3 px-4 rounded-md group">
+                <img src="https://placehold.co/200x200/4ba423/ffffff?text=Top Songs"
+                  class="aspect-square rounded-lg shadow-lg w-full object-cover mb-3" />
+
+                <p class="text-[14px] text-neutral-400 mt-1">
+                  Your weekly update of the most...
+                </p>
+                <button
+                  class="absolute top-[100px] right-5 w-11 h-11 text-2xl pl-1 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:scale-105 hover:bg-[#1ED760] transition-all duration-300 ease-out shadow-lg group-hover:translate-y-0">
+                  ▶
+                </button>
+              </div>
+            </div>
+
+            <button onclick="
+                  document
+                    .getElementById('featured-row')
+                    .scrollBy({ left: 300, behavior: 'smooth' })
+                "
+              class="absolute right-0 top-1/2 text-2xl pl-1 -translate-y-1/2 z-10 w-9 h-9 bg-black/80 opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 group-hover/side:bg-black rounded-full flex items-center justify-center text-white">
+              ›
+            </button>
+          </div>
+        </div>
+        <div>
+          <hr class="border-t border-neutral-800 m-3" />
+          <div class="grid my-8 grid-cols-2 md:grid-cols-[1.5fr_1.5fr_1.5fr_1.5fr_2fr] gap-4">
+            <div class="space-y-4">
+              <div class="p-4">
+                <p class="font-semibold mb-1">Company</p>
+                <p class="text-neutral-400 mb-3 pr-4 py-2 line-clamp-2">
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">About</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Jobs</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">For the Record</a>
+                </p>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="p-4">
+                <p class="font-semibold mb-1">Communities</p>
+                <p class="text-neutral-400 mb-3 pr-4 py-2 line-clamp-2">
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">For Artists</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Developers</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Advertising</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Investors</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Vendors</a>
+                </p>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="p-4">
+                <p class="font-semibold mb-1">Useful links</p>
+                <p class="text-neutral-400 mb-3 pr-4 py-2 line-clamp-2">
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Support</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Free Mobile App</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Popular by Country</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Import your music</a>
+                </p>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="p-4">
+                <p class="font-semibold mb-1">Spotify Plans</p>
+                <p class="text-neutral-400 mb-3 pr-4 py-2 line-clamp-2">
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Premium Standard</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Premium Platinum</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Premium Student</a>
+                  <a href="#" class="hover:text-neutral-200 py-1 line-clamp-2">Spotify Free</a>
+                </p>
+              </div>
+            </div>
+            <div class="p-4 flex justify-normal md:justify-end gap-4">
+              <button
+                class="w-10 h-10 bg-neutral-700/60 rounded-full hover:bg-neutral-500 flex items-center justify-center">
+                <img src="src/instagram-white-icon.svg" class="w-5 h-5" />
+              </button>
+              <button
+                class="w-10 h-10 bg-neutral-700/60 rounded-full hover:bg-neutral-500 flex items-center justify-center">
+                <img src="src/x.svg" class="w-5 h-5" />
+              </button>
+              <button
+                class="w-10 h-10 bg-neutral-700/60 rounded-full hover:bg-neutral-500 flex items-center justify-center">
+                <img src="src/fb-white.svg" class="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          <hr class="border-t border-neutral-800 m-3" />
+          <div class="flex justify-end text-neutral-400 py-6 px-4">
+            &copy spotify-clone-by-shabeel
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- ROW 3: SIGN UP FOOTER BAR -->
+    <footer
+      class="grid grid-cols-[3fr_1fr] gap-4 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 border-neutral-800 items-center h-[90px] m-2 rounded-lg">
+      <div class="pl-4">
+        <span class="text-white text-[14px] font-bold">Preview of Spotify</span><br />
+        <span class="text-white text-[15px]">Sign up to get unlimted songs and podcasts with occasional ads, No
+          credit card needed</span>
+      </div>
+      <div class="py-[20px] flex justify-end">
+        <button class="bg-white hover:bg-neutral-200 text-black font-bold px-4 py-3 mr-4 rounded-full hover:scale-105">
+          Sign up for free
+        </button>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>
