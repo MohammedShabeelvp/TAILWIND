@@ -12,6 +12,7 @@
             colors: {
               navy: "#131921",
               navylight: "#232f3e",
+              amazonorange: "#FF9900",
               accent: "#febd69",
               link: "#007185",
             },
@@ -88,7 +89,7 @@
 
       <!-- Search bar - always visible, shrinks to fill available space -->
       <div
-        class="flex flex-1 min-w-0 h-10 mx-2 my-3 rounded-md overflow-hidden order-last md:order-none w-full md:w-auto"
+        class="flex flex-1 min-w-0 h-10 mx-2 my-3 rounded-md overflow-hidden"
       >
         <select
           class="hidden sm:block w-14 bg-gray-100 text-gray-600 text-sm px-2 border-r border-gray-300 focus:outline-none rounded-l-md hover:bg-gray-300 hover:text-gray-900 hover:cursor-pointer"
@@ -183,10 +184,105 @@
 
       <!-- Cart - always visible -->
       <div
-        class="flex items-center px-4 border border-navy hover:border-white transition-colors mr-1"
+        class="relative flex items-center px-4 border border-navy hover:border-white transition-colors mr-1"
       >
-        cart
+        <img src="src/cart.svg" alt="" class="w-10" />
+        <div class="fixed top-3 right-8">
+          <span class="text-amazonorange text-lg font-bold">0</span>
+        </div>
       </div>
     </nav>
+    <!-- the secondary navbar -->
+    <nav class="flex justify-between bg-navylight h-auto text-white">
+      <div class="h-auto flex items-center gap-2 text-size-xs">
+        <div
+          class="py-2 px-1 border border-navylight hover:border-white transition-colors mr-1 cursor-pointer"
+        >
+          <button class="flex items-center justify-center mr-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+            All
+          </button>
+        </div>
+        <a
+          href="#"
+          class="hidden md:flex py-2 px-1 border border-navylight hover:border-white transition-colors mr-1 cursor-pointer"
+        >
+          Fresh
+        </a>
+        <a
+          href="#"
+          class="py-2 px-1 border border-navylight hover:border-white transition-colors mr-1 cursor-pointer"
+        >
+          Prime Video
+        </a>
+        <a
+          href="#"
+          class="hidden md:flex py-2 px-1 border border-navylight hover:border-white transition-colors mr-1 cursor-pointer"
+        >
+          Sell
+        </a>
+        <a
+          href="#"
+          class="hidden md:flex py-2 px-1 border border-navylight hover:border-white transition-colors mr-1 cursor-pointer"
+        >
+          Bestsellers
+        </a>
+        <a
+          href="#"
+          class="py-2 px-1 border border-navylight hover:border-white transition-colors mr-1 cursor-pointer"
+        >
+          Today's deals
+        </a>
+        <a
+          href="#"
+          class="hidden md:flex py-2 px-1 border border-navylight hover:border-white transition-colors mr-1 cursor-pointer"
+        >
+          Mobiles
+        </a>
+      </div>
+      <div class="flex justify-between border border-navylight hover:border-white transition-colors cursor-pointer">
+        <div class="flex items-center p-1">
+          <div class="bg-white rounded-full pt-2 p-1">
+            <img src="src/bus-icon.svg" alt="bus" class="h-5 w-6" />
+          </div>
+          <span class="py-1 text-xl font-bold"
+            >Up to 17% off on bus tickets</span
+          >
+        </div>
+        <div class="bg-amber-400 flex items-center pl-4 pr-2 rounded-l-full">
+          <img src="src/amazon-pay.svg" alt="pay logo" class="h-8 w-8" />
+        </div>
+      </div>
+    </nav>
+    <div class="bg-[#3a4758] p-1  flex lg:hidden group">
+      <a href="#" class="flex items-center gap-2 px-2 border border-[#3a4758] hover:border-white"
+          ><img
+            src="src/location-white.svg"
+            alt="loc"
+            class="h-7 w-5"
+          />
+          <div class="flex gap-3">
+            <span class="text-white text-xs underline group-hover:text-gray-400"
+              >Delivering to Kozhikode 673611</span
+            >
+            <span class="text-white font-semibold text-sm"
+              >Update location</span
+            >
+          </div></a
+        >
+    </div>
   </body>
 </html>
