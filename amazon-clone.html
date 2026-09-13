@@ -61,10 +61,10 @@
     >
       <!-- Logo -->
       <div
-        class="px-4 border border-navy hover:border-white transition-colors mr-1"
+        class="px-4 py-2 border border-navy hover:border-white transition-colors mr-1"
       >
         <a href="#"
-          ><img src="src/amazon-white1.svg" alt="amazon" class="h-16 w-28"
+          ><img src="src/amazon-white1.svg" alt="amazon" class="w-28"
         /></a>
       </div>
 
@@ -253,7 +253,9 @@
           Mobiles
         </a>
       </div>
-      <div class="flex justify-between border border-navylight hover:border-white transition-colors cursor-pointer">
+      <div
+        class="flex justify-between border border-navylight hover:border-white transition-colors cursor-pointer"
+      >
         <div class="flex items-center p-1">
           <div class="bg-white rounded-full pt-2 p-1">
             <img src="src/bus-icon.svg" alt="bus" class="h-5 w-6" />
@@ -267,22 +269,38 @@
         </div>
       </div>
     </nav>
-    <div class="bg-[#3a4758] p-1  flex lg:hidden group">
-      <a href="#" class="flex items-center gap-2 px-2 border border-[#3a4758] hover:border-white"
-          ><img
-            src="src/location-white.svg"
-            alt="loc"
-            class="h-7 w-5"
-          />
-          <div class="flex gap-3">
-            <span class="text-white text-xs underline group-hover:text-gray-400"
-              >Delivering to Kozhikode 673611</span
-            >
-            <span class="text-white font-semibold text-sm"
-              >Update location</span
-            >
-          </div></a
-        >
+    <!-- div showing location nav for mobile view  -->
+    <div class="bg-[#3a4758] p-1 flex lg:hidden group">
+      <a
+        href="#"
+        class="flex items-center gap-2 px-2 border border-[#3a4758] hover:border-white"
+        ><img src="src/location-white.svg" alt="loc" class="h-7 w-5" />
+        <div class="flex gap-3">
+          <span class="text-white text-xs underline group-hover:text-gray-400"
+            >Delivering to Kozhikode 673611</span
+          >
+          <span class="text-white font-semibold text-sm">Update location</span>
+        </div></a
+      >
     </div>
+    <!-- products section 1 -->
+    <section class="flex py-2 px-4">
+      <div class="bg-green-500 w-[280px] h-[440px] rounded-lg shadow-lg">
+        <div class="flex flex-col text-black bg-white font-sans">
+          <span class="font-bold text-3xl">Pre-book now</span>
+          <span class="text-lg">Sale starts on 18 sep, 8 AM</span>
+          <span class="flex text-3xl font-semibold"
+            ><img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5</span
+          >
+        </div>
+        <div class="flex justify-center px-6 py-6">
+          <img
+            src="src/airpods.png"
+            alt="AirPods 5"
+            class="w-50 h-auto"
+          />
+        </div>
+      </div>
+    </section>
   </body>
 </html>
