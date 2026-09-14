@@ -187,7 +187,7 @@
         class="relative flex items-center px-4 border border-navy hover:border-white transition-colors mr-1"
       >
         <img src="src/cart.svg" alt="" class="w-10" />
-        <div class="fixed top-3 right-8">
+        <div class="absolute -top-1 left-[35px]">
           <span class="text-amazonorange text-lg font-bold">0</span>
         </div>
       </div>
@@ -284,23 +284,815 @@
       >
     </div>
     <!-- products section 1 -->
-    <section class="flex py-2 px-4">
-      <div class="bg-green-500 w-[280px] h-[440px] rounded-lg shadow-lg">
-        <div class="flex flex-col text-black bg-white font-sans">
-          <span class="font-bold text-3xl">Pre-book now</span>
-          <span class="text-lg">Sale starts on 18 sep, 8 AM</span>
-          <span class="flex text-3xl font-semibold"
-            ><img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5</span
+    <section
+      class="flex pb-2 overflow-x-auto gap-2 min-h-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      <div class="relative py-2 px-4 w-full group/side">
+        <!-- Scroll buttons -->
+        <button
+          onclick="
+            document
+              .getElementById('trending-row')
+              .scrollBy({ left: -720, behavior: 'smooth' })
+          "
+          class="absolute left-[2px] top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 rounded-r-lg py-8 border border-l-white border-navy flex items-center justify-center text-black text-4xl"
+        >
+          ‹
+        </button>
+        <button
+          onclick="
+            document
+              .getElementById('trending-row')
+              .scrollBy({ left: 720, behavior: 'smooth' })
+          "
+          class="absolute right-[2px] top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white opacity-0 group-hover/side:opacity-100 group-hover/side:scale-105 rounded-l-lg py-8 border border-r-white border-navy flex items-center justify-center text-black text-4xl"
+        >
+          ›
+        </button>
+
+        <!-- Scrollable row -->
+        <div
+          id="trending-row"
+          class="flex flex-row gap-4 overflow-x-auto no-scrollbar scroll-smooth"
+        >
+          <!-- Card 1 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
           >
-        </div>
-        <div class="flex justify-center px-6 py-6">
-          <img
-            src="src/airpods.png"
-            alt="AirPods 5"
-            class="w-50 h-auto"
-          />
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+          <!-- Card 1 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div
+            class="w-[280px] h-[440px] shrink-0 rounded-2xl shadow-lg overflow-hidden flex flex-col bg-green-500"
+          >
+            <div
+              class="flex flex-col text-black bg-[#F8F8FA] font-sans px-4 py-2"
+            >
+              <span class="font-bold text-3xl">Pre-book now</span>
+              <span class="text-lg">Sale starts on 18 Sep, 8 AM</span>
+              <span class="flex items-center text-3xl font-semibold">
+                <img src="src/apple.svg" alt="apple" class="w-8" />Airpods 5
+              </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center">
+              <img
+                src="src/airpods.png"
+                alt="AirPods 5"
+                class="w-auto h-auto"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
+    <!-- product section-2 -->
+    <section class="grid grid-cols-2 items-center lg:grid-cols-4 md:grid-cols-3 py-1 px-2">
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 w-[340px] h-[453px] p-3 rounded-2xl shadow-lg border border-gray-300 mb-7"
+      >
+        <a href="#" class="flex col-span-2 py-1">
+          <h3 class="text-lg font-bold leading-snug text-black">
+            Lowest prices on Amazon + Extra 15% cashback
+          </h3>
+          <span class="text-2xl w-10 h-5 pl-6 mt-1 shrink-0 text-gray-700"
+            >></span
+          >
+        </a>
+        <div class="grid grid-cols-2 py-1">
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img1"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />T-shirt & Shirts</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img2"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Electronics</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image.png"
+              alt="img3"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shoes</a
+          >
+          <a href="#" class="text-sm pb-4"
+            ><img
+              src="src/image1.png"
+              alt="img4"
+              class="w-[150px] h-[150px] rounded-2xl"
+            />Shop all Bazaar</a
+          >
+        </div>
+      </div>
+    </section>
+    <!-- personlised section -->
+    <section>sign in</section>
+    <footer class="flex">
+      <div>back to top</div>
+      <div>connect</div>
+      <div>copyright</div>
+    </footer>
   </body>
 </html>
